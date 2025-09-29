@@ -1,0 +1,6 @@
+fastapi # Web framework for building APIs
+uvicorn # server for running FastAPI applications
+sqlalchemy # object-relational mapping (ORM) library
+pydantic # data validation
+passlib[bcrypt] # password hashing
+python-jose # JWT token handling

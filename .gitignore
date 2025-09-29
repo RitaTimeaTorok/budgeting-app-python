@@ -1,0 +1,35 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.db
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+
+# Jupyter / notebooks
+.ipynb_checkpoints/
+
+# --- Frontend (Node / React) ---
+frontend/node_modules/
+frontend/build/
+frontend/.next/
+frontend/dist/
+
+# Logs
+*.log
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
