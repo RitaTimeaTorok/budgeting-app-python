@@ -1,0 +1,6 @@
+# Frontend requirements for budgeting app (for reference)
+react
+react-dom
+react-scripts
+axios
+react-router-dom

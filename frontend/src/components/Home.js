@@ -25,6 +25,9 @@ function Home() {
       </button>
       <h2>Home Page</h2>
       <p>Login was successful!</p>
+      <button onClick={() => navigate("/upload")}>
+        Upload Excel File
+      </button>
     </div>
   );
 }

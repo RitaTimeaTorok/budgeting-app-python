@@ -25,6 +25,10 @@ frontend/build/
 frontend/.next/
 frontend/dist/
 
+node_modules/
+**/node_modules/
+frontend/node_modules/
+
 # Logs
 *.log
 
