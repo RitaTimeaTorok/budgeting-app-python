@@ -1,26 +1,36 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react"; // React hook for state management in a function component
+import axios from "axios"; // Library for making HTTP requests
+import { useNavigate } from "react-router-dom"; // Hook for navigation between routes
 import "../styles/App.css";
 
 const API_URL = "http://127.0.0.1:8000";
 
-
 function LoginRegister() {
+  // True for login, false for register
   const [isLogin, setIsLogin] = useState(true);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+
+  // Feedback message (success, error)
   const [message, setMessage] = useState("");
+
+  // Function to change pages
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!isLogin && password !== repeatPassword) {
       setMessage("Passwords do not match.");
       return;
     }
+
     const endpoint = isLogin ? "/login" : "/register";
+
+    // Choose the endpoint based on mode: login or register
+    // Send POST request to the backend
     try {
       const response = await axios.post(API_URL + endpoint, {
         username,
@@ -34,9 +44,7 @@ function LoginRegister() {
         setMessage("Registration successful! You can now log in.");
       }
     } catch (err) {
-      setMessage(
-        err.response?.data?.detail || "An error occurred. Try again."
-      );
+      setMessage(err.response?.data?.detail || "An error occurred. Try again.");
     }
   };
 
@@ -67,9 +75,7 @@ function LoginRegister() {
             required
           />
         )}
-        <button type="submit">
-          {isLogin ? "Login" : "Register"}
-        </button>
+        <button type="submit">{isLogin ? "Login" : "Register"}</button>
       </form>
       <button
         onClick={() => {
@@ -80,7 +86,9 @@ function LoginRegister() {
           setMessage("");
         }}
       >
-        {isLogin ? "Need an account? Register" : "Already have an account? Login"}
+        {isLogin
+          ? "Need an account? Register"
+          : "Already have an account? Login"}
       </button>
       <div className="message">{message}</div>
     </div>
