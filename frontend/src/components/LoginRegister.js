@@ -1,7 +1,7 @@
 import { useState } from "react"; // React hook for state management in a function component
 import axios from "axios"; // Library for making HTTP requests
 import { useNavigate } from "react-router-dom"; // Hook for navigation between routes
-import "../styles/App.css";
+import "../styles/login.css"; // Importing CSS styles for the component
 
 const API_URL = "http://127.0.0.1:8000";
 
@@ -49,7 +49,7 @@ function LoginRegister() {
   };
 
   return (
-    <div className="app-container">
+    <div className="login-container">
       <h2>{isLogin ? "Login" : "Register"}</h2>
       <form onSubmit={handleSubmit}>
         <input

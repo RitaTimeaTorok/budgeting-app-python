@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/App.css";
+import "../styles/home.css";
+import "../styles/excel-upload.css";
+import "../styles/table.css";
 
 import ExcelUpload from "./ExcelUpload";
 import TransactionsTable from "./TransactionsTable";

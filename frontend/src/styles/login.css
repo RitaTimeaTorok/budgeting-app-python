@@ -1,0 +1,65 @@
+/* Login/Register styles */
+.login-container {
+  max-width: 300px;
+  margin: 60px auto;
+  padding: 32px 28px 28px 28px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+h2 {
+  text-align: center;
+  color: #2e7d32;
+  margin-bottom: 24px;
+}
+
+input[type="text"],
+input[type="password"] {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border: 1px solid #b2dfdb;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #f9fbe7;
+  transition: border 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border: 1.5px solid #ff9800;
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px 0;
+  margin-bottom: 10px;
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(255,152,0,0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  background: #fb8c00;
+  color: #2e7d32;
+  box-shadow: 0 4px 16px rgba(255,152,0,0.15);
+}
+
+.message {
+  margin-top: 18px;
+  text-align: center;
+  color: #388e3c;
+  font-weight: 500;
+  min-height: 24px;
+}

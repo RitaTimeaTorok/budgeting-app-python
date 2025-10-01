@@ -1,0 +1,37 @@
+/* Excel Upload styles */
+.excel-upload-form {
+  width: 100%;
+  margin-top: 18px;
+}
+
+.excel-upload-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.excel-file-input {
+  margin-bottom: 6px;
+  font-size: 0.98rem;
+}
+
+.excel-upload-btn {
+  width: auto;
+  min-width: 120px;
+  padding: 7px 18px;
+  background: #e6ffe6;
+  color: #1b5e20;
+  border: 1px solid #a5d6a7;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.10);
+  transition: background 0.2s, color 0.2s;
+}
+
+.excel-upload-btn:hover {
+  background: #bbddbb;
+  color: #145a14;
+}

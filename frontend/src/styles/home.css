@@ -1,0 +1,39 @@
+/* Home and general app styles */
+body {
+  background-color: #e6ffe6; /* light green */
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.app-container {
+  max-width: 650px;
+  margin: 60px auto;
+  padding: 32px 28px 28px 28px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+.logout-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: auto;
+  padding: 6px 18px;
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(255,152,0,0.08);
+  transition: background 0.2s, color 0.2s;
+}
+
+.logout-btn:hover {
+  background: #fb8c00;
+  color: #2e7d32;
+}

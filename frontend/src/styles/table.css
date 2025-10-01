@@ -1,0 +1,22 @@
+/* Transactions Table styles */
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.98rem;
+}
+.transactions-table th, .transactions-table td {
+  border: 1px solid #b2dfdb;
+  padding: 8px 12px;
+  text-align: left;
+}
+.transactions-table th {
+  background: #e6ffe6;
+  color: #2e7d32;
+}
+.transactions-table tr:nth-child(even) {
+  background: #f9fbe7;
+}
