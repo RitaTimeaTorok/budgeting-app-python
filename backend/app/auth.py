@@ -1,3 +1,5 @@
+# Authentication and authorization utilities
+
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from . import crud, database

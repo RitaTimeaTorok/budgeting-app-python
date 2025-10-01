@@ -1,3 +1,6 @@
+# This is only for testing purposes !
+# Helps to dump the database content to the console
+
 from sqlalchemy.orm import Session
 from .database import SessionLocal
 from .models import Transaction, User

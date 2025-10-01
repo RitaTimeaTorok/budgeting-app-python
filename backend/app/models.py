@@ -1,4 +1,4 @@
-# Here we define database tables 
+# Here we define database tables and relationships
 
 from sqlalchemy import Column, Integer, String, Float, Date
 from .database import Base

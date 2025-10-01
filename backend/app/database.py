@@ -1,4 +1,4 @@
-# Here we set up the SQLite connection
+# Here we set up the SQLite connection and do the session management 
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base

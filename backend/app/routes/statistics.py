@@ -1,18 +1,14 @@
-# app/routes/statistics.py
-from collections import defaultdict
-from datetime import datetime, date as date_cls
-from fastapi import APIRouter, Depends
+from collections import defaultdict # Auto-creates default values for missing keys
+from datetime import datetime, date as date_cls # Parse and normalize dates
+from fastapi import APIRouter, Depends # Define routers in a modular way + dependency injection
 from sqlalchemy.orm import Session
 from .. import models
 from ..auth import get_current_user, get_db
 
 router = APIRouter()
 
+# Helper to convert date formats to datetime
 def _to_date(d):
-    """
-    Accepts str | datetime | date and returns a datetime.
-    Handles ISO strings like 'YYYY-MM-DD' or 'YYYY-MM-DDTHH:MM:SS'.
-    """
     if isinstance(d, str):
         try:
             return datetime.fromisoformat(d)
@@ -27,9 +23,10 @@ def _to_date(d):
 
 @router.get("/statistics")
 def get_statistics(
-    db: Session = Depends(get_db),
-    current_user: models.User = Depends(get_current_user)
+    db: Session = Depends(get_db), # Guarantiees the endpoint has a database session
+    current_user: models.User = Depends(get_current_user) # Authenticated user object derived from token
 ):
+    # Load the transactions that match this user
     txs = (
         db.query(models.Transaction)
         .filter(models.Transaction.user_id == current_user.id)
@@ -37,8 +34,6 @@ def get_statistics(
     )
 
     balance = 0.0
-
-    # Overall totals by month (kept for compatibility / quick summaries)
     monthly_income = defaultdict(float)
     monthly_spending = defaultdict(float)
 
@@ -53,14 +48,13 @@ def get_statistics(
     for t in txs:
         dt = _to_date(t.date)
         month = dt.strftime("%Y-%m")
-        cat = (t.category or "Uncategorized").strip()
+        cat = (t.category or "Uncategorized").strip() # Normalize empty categories
         amt = float(t.amount or 0.0)
         flow = (t.flow or "").upper()
 
         if flow == "IN":
             balance += amt
             monthly_income[month] += amt
-
             by_month[month]["income_total"] += amt
             by_month[month]["net"] += amt
             by_month[month]["categories_income"][cat] += amt
@@ -68,11 +62,11 @@ def get_statistics(
         elif flow == "OUT":
             balance -= amt
             monthly_spending[month] += amt
-
             by_month[month]["spending_total"] += amt
             by_month[month]["net"] -= amt
             by_month[month]["categories_spending"][cat] += amt
 
+    # Convert nested defaultdicts to regular dicts for JSON serialization
     by_month_out = {}
     for m, data in by_month.items():
         by_month_out[m] = {
@@ -83,7 +77,7 @@ def get_statistics(
             "categories_spending": dict(data["categories_spending"]),
         }
 
-    # Months index sorted descending (latest first)
+    # Months index sorted descending - latest first
     months = sorted(by_month_out.keys(), reverse=True)
 
     return {

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
+from fastapi import status
 from datetime import datetime
 from sqlalchemy.orm import Session
 from .. import models, schemas
@@ -91,3 +92,23 @@ async def upload_excel(
     except Exception as e:
         # Any unexpected parsing errors become a 400 instead of 500
         raise HTTPException(status_code=400, detail=f"Failed to read Excel: {e}")
+
+# Delete by ID endpoint
+@router.delete("/transactions/{transaction_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_transaction(
+    transaction_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    # Check if the transaction exists and belongs to the current user
+    tx = db.query(models.Transaction).filter(
+        models.Transaction.id == transaction_id,
+        models.Transaction.user_id == current_user.id
+    ).first()
+    if not tx:
+        raise HTTPException(status_code=404, detail="Transaction not found")
+    
+    # If everything is okay, delete the transaction 
+    db.delete(tx)
+    db.commit()
+    return

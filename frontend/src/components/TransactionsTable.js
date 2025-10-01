@@ -32,6 +32,19 @@ function TransactionTable() {
         fetchData();
    }, []);
 
+   const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this transaction?")) return;
+    const token = localStorage.getItem("token");
+    try {
+      await axios.delete(`http://localhost:8000/transactions/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setTransactions(transactions.filter(t => t.id !== id));
+    } catch (err) {
+      alert("Failed to delete transaction.");
+    }
+  };
+
    if (error) {
         return <div className="message">{error}</div>;
    }
@@ -51,6 +64,7 @@ function TransactionTable() {
             <th>Category</th>
             <th>Subcategory</th>
             <th>Flow</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -63,6 +77,15 @@ function TransactionTable() {
               <td>{t.category}</td>
               <td>{t.subcategory}</td>
               <td>{t.flow}</td>
+              <td>
+                <button
+                  style={{ background: "none", border: "none", cursor: "pointer" }}
+                  onClick={() => handleDelete(t.id)}
+                  title="Delete"
+                >
+                  🗑️
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
