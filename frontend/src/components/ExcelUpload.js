@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import "../styles/excel-upload.css";
 
 function ExcelUpload() {
   const [file, setFile] = useState(null);

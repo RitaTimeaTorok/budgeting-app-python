@@ -1,0 +1,129 @@
+/* Card container */
+.grid-form {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto 24px auto;
+  padding: 0 8px;
+}
+
+.grid-card {
+  background: #fafafa;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 16px;
+  border: 1px solid #e6e6e6;
+}
+
+.grid-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* Excel-like table */
+.table-wrap {
+  overflow-x: auto;
+}
+
+.excel-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  border: 1px solid #cfd8dc;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Header style: Excel-ish */
+.excel-table thead th {
+  position: sticky;
+  top: 0;
+  background: #f5f7fa;
+  color: #37474f;
+  text-align: left;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-bottom: 1px solid #cfd8dc;
+  white-space: nowrap;
+}
+
+/* Body cells */
+.excel-table tbody td {
+  padding: 0; /* inputs handle spacing */
+  border-bottom: 1px solid #e0e6ea;
+  border-right: 1px solid #eef2f5;
+}
+
+/* last cell borders */
+.excel-table thead th:last-child,
+.excel-table tbody td:last-child {
+  border-right: none;
+}
+
+/* Inputs as cells */
+.excel-table tbody td input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: none;
+  outline: none;
+  font: inherit;
+  background: transparent;
+  color: #263238;
+  caret-color: #2e7d32;
+}
+
+/* Focus ring like Excel selection */
+.excel-table tbody td input:focus {
+  box-shadow: inset 0 0 0 2px #81e581;
+  background: #fbfffb;
+}
+
+/* Row hover */
+.excel-table tbody tr:hover td {
+  background: #fafdf9;
+}
+
+/* Button + message row */
+.grid-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.grid-submit {
+  padding: 8px 18px;
+  background: #e6ffe6;
+  color: #1b5e20;
+  border: 1px solid #a5d6a7;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.10);
+  transition: background 0.2s, color 0.2s, transform 0.05s;
+}
+
+.grid-submit:hover { background: #bbddbb; color: #145a14; }
+.grid-submit:active { transform: translateY(1px); }
+
+.grid-message {
+  min-height: 24px;
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+/* Optional: make numeric digits align nicely */
+.excel-table tbody td input[name="amount"] {
+  text-align: right;              /* like spreadsheets */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Small screens */
+@media (max-width: 680px) {
+  .excel-table thead th { font-size: 0.92rem; }
+  .excel-table tbody td input { font-size: 0.95rem; }
+}

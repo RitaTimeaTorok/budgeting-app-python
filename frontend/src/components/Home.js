@@ -6,11 +6,13 @@ import "../styles/table.css";
 
 import ExcelUpload from "./ExcelUpload";
 import TransactionsTable from "./TransactionsTable";
+import ManualEntry from "./ManualEntry";
 
 function Home() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [activeTab, setActiveTab] = useState("view");
+  const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -25,6 +27,19 @@ function Home() {
       }
     }
   }, [navigate]);
+
+  const refreshTransactions = async () => {
+    const token = localStorage.getItem("token");
+    const response = await fetch("http://localhost:8000/transactions", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setTransactions(data);
+    } else {
+      setTransactions([]);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -59,7 +74,7 @@ function Home() {
         )}
         {activeTab === "manual" && (
           <div>
-            <p>Manual data entry form (to be implemented).</p>
+            <ManualEntry onSuccess={refreshTransactions} />
           </div>
         )}
       </div>

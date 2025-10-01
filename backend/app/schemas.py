@@ -19,3 +19,11 @@ class UserOut(BaseModel):
 
     class Config:
         orm_mode = True
+
+class TransactionCreate(BaseModel):
+    description: str
+    amount: float
+    currency: str
+    category: str
+    subcategory: str = ""
+    flow: str

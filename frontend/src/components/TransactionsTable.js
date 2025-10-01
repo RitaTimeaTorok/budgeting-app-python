@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "../styles/table.css";
 
 // Helper to format date as YYYY-MM-DD
 function formatDate(dateString) {

@@ -1,3 +1,4 @@
+from datetime import datetime
 from io import BytesIO
 from fastapi import FastAPI, Depends, HTTPException, UploadFile, status
 from fastapi.params import File
@@ -113,3 +114,15 @@ def get_transactions(
         }
         for t in transactions
     ]
+
+@app.post("/transactions")
+def add_transaction(transaction: schemas.TransactionCreate, user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    db_transaction = models.Transaction(
+        user_id=user.id,
+        date=datetime.utcnow(),  # Set date automatically
+        **transaction.dict()
+    )
+    db.add(db_transaction)
+    db.commit()
+    db.refresh(db_transaction)
+    return db_transaction
