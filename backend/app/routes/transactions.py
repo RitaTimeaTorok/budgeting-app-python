@@ -14,7 +14,12 @@ def get_transactions(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user)
 ):
-    transactions = db.query(models.Transaction).filter(models.Transaction.user_id == current_user.id).all()
+    transactions = (
+        db.query(models.Transaction)
+        .filter(models.Transaction.user_id == current_user.id)
+        .order_by(models.Transaction.date.desc())
+        .all()
+    )
     return [
         {
             "id": t.id,

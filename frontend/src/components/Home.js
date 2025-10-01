@@ -7,6 +7,7 @@ import "../styles/table.css";
 import ExcelUpload from "./ExcelUpload";
 import TransactionsTable from "./TransactionsTable";
 import ManualEntry from "./ManualEntry";
+import Statistics from "./Statistics";
 
 function Home() {
   const navigate = useNavigate();
@@ -63,6 +64,11 @@ function Home() {
         <button onClick={() => setActiveTab("upload")}>Upload Excel</button>
       </div>
       <div>
+        {activeTab === "stats" && (
+          <div>
+            <Statistics />
+          </div>
+        )}
         {activeTab === "view" && (
           <div>
             <TransactionsTable />
