@@ -33,11 +33,12 @@ function ExcelUpload() {
   };
 
   return (
-    <div className="app-container">
-      <h2>Upload Excel File</h2>
-      <form onSubmit={handleUpload}>
-        <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
-        <button type="submit">Upload</button>
+    <div>
+      <form onSubmit={handleUpload} className="excel-upload-form">
+        <div className="excel-upload-center">
+          <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} className="excel-file-input" />
+          <button type="submit" className="excel-upload-btn">Upload Excel</button>
+        </div>
       </form>
       <div className="message">{message}</div>
     </div>

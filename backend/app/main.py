@@ -93,3 +93,23 @@ async def upload_excel(
     except Exception as e:
         # Any unexpected parsing errors become a 400 instead of 500
         raise HTTPException(status_code=400, detail=f"Failed to read Excel: {e}")
+
+@app.get("/transactions")
+def get_transactions(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    transactions = db.query(models.Transaction).filter(models.Transaction.user_id == current_user.id).all()
+    return [
+        {
+            "id": t.id,
+            "date": t.date,
+            "description": t.description,
+            "amount": t.amount,
+            "currency": t.currency,
+            "category": t.category,
+            "subcategory": t.subcategory,
+            "flow": t.flow,
+        }
+        for t in transactions
+    ]

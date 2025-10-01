@@ -1,3 +1,40 @@
+/* Excel Upload Custom Styles */
+.excel-upload-form {
+  width: 100%;
+  margin-top: 18px;
+}
+
+.excel-upload-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.excel-file-input {
+  margin-bottom: 6px;
+  font-size: 0.98rem;
+}
+
+.excel-upload-btn {
+  width: auto;
+  min-width: 120px;
+  padding: 7px 18px;
+  background: #e6ffe6;
+  color: #1b5e20;
+  border: 1px solid #a5d6a7;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.10);
+  transition: background 0.2s, color 0.2s;
+}
+
+.excel-upload-btn:hover {
+  background: #bbddbb;
+  color: #145a14;
+}
 body {
   background-color: #e6ffe6; /* light green */
   min-height: 100vh;
@@ -6,9 +43,9 @@ body {
 }
 
 .app-container {
-  max-width: 400px;
+  max-width: 650px;
   margin: 60px auto;
-  padding: 32px 24px 24px 24px;
+  padding: 32px 28px 28px 28px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.08);
@@ -90,4 +127,26 @@ button:hover {
   color: #388e3c;
   font-weight: 500;
   min-height: 24px;
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.98rem;
+}
+.transactions-table th, .transactions-table td {
+  border: 1px solid #b2dfdb;
+  padding: 8px 12px;
+  text-align: left;
+}
+.transactions-table th {
+  background: #e6ffe6;
+  color: #2e7d32;
+}
+.transactions-table tr:nth-child(even) {
+  background: #f9fbe7;
 }

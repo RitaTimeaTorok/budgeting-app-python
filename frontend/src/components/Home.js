@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/App.css";
 
 import ExcelUpload from "./ExcelUpload";
+import TransactionsTable from "./TransactionsTable";
 
 function Home() {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ function Home() {
       <div>
         {activeTab === "view" && (
           <div>
-            <p>Already existing data (to be implemented).</p>
+            <TransactionsTable />
           </div>
         )}
         {activeTab === "upload" && (
