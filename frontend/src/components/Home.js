@@ -11,7 +11,7 @@ import ManualEntry from "./ManualEntry";
 function Home() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
-  const [activeTab, setActiveTab] = useState("view");
+  const [activeTab, setActiveTab] = useState("stats");
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
@@ -57,9 +57,10 @@ function Home() {
         Welcome to my little budgeting app{username && `, ${username}`}!
       </h2>
       <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+        <button style={{ marginRight: 8 }} onClick={() => setActiveTab("stats")}>Statistics</button>
         <button style={{ marginRight: 8 }} onClick={() => setActiveTab("view")}>View Data</button>
-        <button style={{ marginRight: 8 }} onClick={() => setActiveTab("upload")}>Upload Excel</button>
-        <button onClick={() => setActiveTab("manual")}>Add Manually</button>
+        <button style={{ marginRight: 8 }} onClick={() => setActiveTab("manual")}>Add Manually</button>
+        <button onClick={() => setActiveTab("upload")}>Upload Excel</button>
       </div>
       <div>
         {activeTab === "view" && (
@@ -67,14 +68,14 @@ function Home() {
             <TransactionsTable />
           </div>
         )}
-        {activeTab === "upload" && (
-          <div>
-            <ExcelUpload />
-          </div>
-        )}
         {activeTab === "manual" && (
           <div>
             <ManualEntry onSuccess={refreshTransactions} />
+          </div>
+        )}
+        {activeTab === "upload" && (
+          <div>
+            <ExcelUpload />
           </div>
         )}
       </div>
