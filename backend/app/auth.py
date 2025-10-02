@@ -2,7 +2,8 @@
 
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from . import crud, database
+from . import database
+from .crud import crud_user
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from jose import jwt, JWTError
@@ -59,7 +60,7 @@ def get_current_user(
     except JWTError:
         raise credentials_exception
 
-    user = crud.get_user_by_username(db, username=username)
+    user = crud_user.get_user_by_username(db, username=username)
     if user is None:
         raise credentials_exception
     return user

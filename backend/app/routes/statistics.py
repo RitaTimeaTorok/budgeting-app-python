@@ -23,7 +23,7 @@ def _to_date(d):
 
 @router.get("/statistics")
 def get_statistics(
-    db: Session = Depends(get_db), # Guarantiees the endpoint has a database session
+    db: Session = Depends(get_db), # Guarantees the endpoint has a database session
     current_user: models.User = Depends(get_current_user) # Authenticated user object derived from token
 ):
     # Load the transactions that match this user

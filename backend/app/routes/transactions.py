@@ -1,26 +1,21 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile
-from fastapi import status
-from datetime import datetime
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..auth import get_current_user, get_db
 from io import BytesIO
 from fastapi.params import File
+from ..crud.crud_transaction import get_transactions_for_user, create_transaction, delete_transaction as crud_delete_transaction
 import pandas as pd
 
 router = APIRouter()
 
+# Get all transactions for the current user, newest first
 @router.get("/transactions")
 def get_transactions(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user)
 ):
-    transactions = (
-        db.query(models.Transaction)
-        .filter(models.Transaction.user_id == current_user.id)
-        .order_by(models.Transaction.date.desc())
-        .all()
-    )
+    transactions = get_transactions_for_user(db, current_user.id)
     return [
         {
             "id": t.id,
@@ -35,80 +30,52 @@ def get_transactions(
         for t in transactions
     ]
 
+# Add a new transaction for the current user
 @router.post("/transactions")
-def add_transaction(transaction: schemas.TransactionCreate, user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
-    db_transaction = models.Transaction(
-        user_id=user.id,
-        date=datetime.utcnow(),  # Set date automatically
-        **transaction.dict()
-    )
-    db.add(db_transaction)
-    db.commit()
-    db.refresh(db_transaction)
-    return db_transaction
+def add_transaction(
+    transaction: schemas.TransactionCreate,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    return create_transaction(db, current_user.id, transaction)
 
+# Upload Excel and add transactions in bulk
 @router.post("/upload-excel")
 async def upload_excel(
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user)
 ):
-    # Basic content-type guard (optional but helpful)
-    allowed_types = {
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "application/vnd.ms-excel",
-    }
-    if file.content_type not in allowed_types:
+    if not (file.filename.endswith(".xlsx") or file.filename.endswith(".xls")):
         raise HTTPException(status_code=400, detail="Please upload an .xlsx or .xls file.")
-
     try:
-        # Read bytes and parse with pandas
         raw = await file.read()
-        df = pd.read_excel(BytesIO(raw))  # requires openpyxl for .xlsx
-
-        required_cols = ["Date", "Description", "Amount", "Currency", "Category", "Subcategory", "Flow"]
-        missing = [c for c in required_cols if c not in df.columns]
-        if missing:
-            raise HTTPException(status_code=400, detail=f"Missing required columns: {missing}")
-
-        # Insert rows
+        df = pd.read_excel(BytesIO(raw))
         for _, row in df.iterrows():
-            tx = models.Transaction(
-                date=str(row["Date"]),
+            transaction = schemas.TransactionCreate(
+                date=row["Date"],
                 description=str(row["Description"]),
                 amount=float(row["Amount"]),
                 currency=str(row["Currency"]),
                 category=str(row["Category"]),
                 subcategory=str(row["Subcategory"]),
                 flow=str(row["Flow"]),
-                user_id=current_user.id,
             )
-            db.add(tx)
-
-        db.commit()
+            create_transaction(db, current_user.id, transaction)
         return {"message": "Excel file processed successfully"}
     except HTTPException:
         raise
     except Exception as e:
-        # Any unexpected parsing errors become a 400 instead of 500
         raise HTTPException(status_code=400, detail=f"Failed to read Excel: {e}")
 
-# Delete by ID endpoint
+# Delete a transaction by ID for the current user
 @router.delete("/transactions/{transaction_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_transaction(
     transaction_id: int,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user)
 ):
-    # Check if the transaction exists and belongs to the current user
-    tx = db.query(models.Transaction).filter(
-        models.Transaction.id == transaction_id,
-        models.Transaction.user_id == current_user.id
-    ).first()
-    if not tx:
+    success = crud_delete_transaction(db, transaction_id, current_user.id)
+    if not success:
         raise HTTPException(status_code=404, detail="Transaction not found")
-    
-    # If everything is okay, delete the transaction 
-    db.delete(tx)
-    db.commit()
     return

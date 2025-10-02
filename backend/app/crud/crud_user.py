@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from . import models, schemas, auth
+from .. import models, schemas, auth
 
 # Look up a user by username
 def get_user_by_username(db: Session, username: str):
